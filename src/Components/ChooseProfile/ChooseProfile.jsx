@@ -42,14 +42,14 @@ const ChooseProfile = () => {
         if (typeof cropperRef.current?.cropper !== "undefined") {
             setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
             const storage = getStorage();
-            const storageRef = ref(storage, 'some-child');
+            const storageRef = ref(storage, userData.uid);
 
             // Data URL string
             const message4 = cropperRef.current?.cropper.getCroppedCanvas().toDataURL();
             uploadString(storageRef, message4, 'data_url').then((snapshot) => {
                 getDownloadURL(storageRef).then((downloadURL) => {
                     updateProfile(auth.currentUser, {
-                    photoURL: downloadURL
+                      photoURL: downloadURL
                       }).then(()=>{
                         dispatch(userLoginInfo({...userData,photoURL:downloadURL}))
                         localStorage.setItem("userInfo",JSON.stringify({...userData,photoURL:downloadURL}) )

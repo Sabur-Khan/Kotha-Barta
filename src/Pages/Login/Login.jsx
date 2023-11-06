@@ -58,20 +58,19 @@ const Login = () => {
       signInWithEmailAndPassword(auth, email, password)
         .then((user) => {
          
-         if(auth.currentUser.emailVerified === true){
-          dispatch(userLoginInfo(user.user))
-          localStorage.setItem('userInfo',JSON.stringify(user.user));
-          setLoading(true)
-          toast.success("Login successful");
-          setTimeout(()=>{
-            navigate("/Home")
-          },3000)
-         }else{
-          toast.warning("Please verified your email");
-         }
-          
-        })
-        .catch((error) => {
+          if(auth.currentUser.emailVerified === true){
+            dispatch(userLoginInfo(user.user))
+            localStorage.setItem('userInfo',JSON.stringify(user.user));
+            setLoading(true)
+            toast.success("Login successful");
+            setTimeout(()=>{
+              navigate("/Home")
+            },3000)
+          }else{
+            toast.warning("Please verified your email");
+          }
+        
+        }).catch((error) => {
           const errorCode = error.code;
 
           if(errorCode.includes('auth/invalid-login-credentials')){
@@ -217,7 +216,7 @@ const Login = () => {
             <div className="mt-[51px] ">
               {
                 loading ?
-                <div className='absolute w-full h-full left-0 top-0 bg-black/25'>
+                <div className='absolute w-full h-[100%] left-0 top-0 bg-black/25'>
                   <ColorRing
                     visible={true}
                     height="80"

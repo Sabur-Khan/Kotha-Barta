@@ -3,14 +3,17 @@ import regiRegistrationimg from '../../assets/registration.jpg'
 import {HiLockClosed} from 'react-icons/hi'
 import {HiLockOpen} from 'react-icons/hi'
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import { ColorRing } from 'react-loader-spinner';
+import { getDatabase, ref, set } from "firebase/database";
 
 
 
 function Registration() {
     const navigate = useNavigate()
+    const db = getDatabase();
+    const database = getDatabase();
     const auth = getAuth();
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
@@ -64,12 +67,15 @@ function Registration() {
         if(email && password && (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) && (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
             setLoading(false)
             createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                sendEmailVerification(auth.currentUser)
-                 
-                .then(() => {
+            .then((user) => {
+                updateProfile(auth.currentUser, {
+                    displayName:name , 
+
+                }).then(() => {
+
+                    sendEmailVerification(auth.currentUser)
                     setLoading(true)
-                    // setSuccess('Registration Sucessful Please Verify Your Email!');
+                    console.log(user);
                     toast.success('Registration Done Please Verify Your Email!')
                     setEmail('');
                     setName('');
@@ -77,14 +83,20 @@ function Registration() {
                     setTimeout(()=>{
                         navigate('/Login')
                     },3000)
+
+                }).then(()=>{
+                    set(ref(db, 'users/' + user.user.uid), {
+                        username: user.user.displayName,
+                        email: user.user.email,
+                    });
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    if(errorCode.includes('auth/email-already-in-use')){
+                        toast.success('This email is alredy in use');
+                    };
                 });
             })
-            .catch((error) => {
-                const errorCode = error.code;
-                if(errorCode.includes('auth/email-already-in-use')){
-                    toast.success('This email is alredy in use');
-                };
-            });
                 
         }
     }
@@ -159,7 +171,7 @@ function Registration() {
                             
                             {
                                 loading ?
-                                <div className='absolute w-full h-full left-0 top-0 bg-black/25'>
+                                <div className='absolute w-full h-[100%] left-0 top-0 bg-black/25'>
                                     <ColorRing
                                         visible={true}
                                         height="80"
