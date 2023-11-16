@@ -30,7 +30,7 @@ function FriendRequest() {
       })
       setUserReqData(arrays)
     });
-    console.log(userReqData);
+    // console.log(userReqData);
   },[])
 
   const handelAccpet = (item) =>{

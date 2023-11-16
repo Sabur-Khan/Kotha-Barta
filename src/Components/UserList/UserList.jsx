@@ -18,7 +18,7 @@ const UserList = () => {
   const [friendList, setFriendtList] = useState([]);
 
   useEffect(()=>{
-    const userRef = ref(db, 'users');
+    const userRef = ref(db, 'users/');
     onValue(userRef, (snapshot) => {
       let arrays =[]
       snapshot.forEach((item)=>{

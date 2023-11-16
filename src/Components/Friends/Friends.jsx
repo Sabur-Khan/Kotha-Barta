@@ -1,10 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HiDotsVertical } from 'react-icons/hi';
 import friends1 from '../../assets/friends1.png'
 import friends2 from '../../assets/friends2.png'
 import friends3 from '../../assets/friends3.png'
 import friends4 from '../../assets/friends4.png'
+
+import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
+import { useSelector } from "react-redux";
+
 const Friends = () => {
+
+  const userData = useSelector((state)=> state.user.userInfo);
+  const db = getDatabase();
+  const database = getDatabase();
+  const [friedsList, setFriedsList] = useState([])
+
+  
+  useEffect(()=>{
+    const friendRef = ref(db, 'friend/');
+    onValue(friendRef, (snapshot) => {
+      let arrays =[]
+      snapshot.forEach((item)=>{
+
+        // console.log(item.val(),"friendS");
+
+        if(userData.uid == item.val().rechiverId || userData.uid == item.val().senderId){
+          arrays.push({...item.val(), key: item.key})
+        }
+
+      })
+
+     setFriedsList(arrays)
+      //  console.log(arrays);
+    });
+    // console.log(userData);
+  },[])
+
+  const handelBlock = (item) =>{
+    console.log(item,"Block");
+    if(userData.uid == item.senderId){
+      set(push(ref(db, 'Block/')), {
+        block: item.receiverName,
+        blockId: item.rechiverId,
+        blockBy: item.senderName,
+        blockById: item.senderId
+      }).then(()=>{
+        remove(ref(db, 'friend/' + item.key))
+      })
+    }else{
+      set(push(ref(db, 'Block/')), {
+        block: item.senderName,
+        blockId: item.senderId,
+        blockBy: item.receiverName,
+        blockById: item.rechiverId
+      }).then(()=>{
+        remove(ref(db, 'friend/' + item.key))
+      })
+    }
+  }
+  
+
   return (
     <div className="shadow-lg bg-white h-[440px] rounded-[20px] py-[24px] px-[15px] overflow-y-auto">
 
@@ -15,73 +70,36 @@ const Friends = () => {
         <HiDotsVertical className=" cursor-pointer text-xl text-[#5F35F5]"/>
       </div>
 
-      <div className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 cursor-pointer">
-        <div className="w-[50px] h-[50px] rounded-full">
-          <img src={friends1} alt=""/>
-        </div>
-        <div className="flex justify-between items-center w-[80%]">
-
+      {
+        friedsList.map((item)=> (
           <div>
-            <h3 className="text-black font-Poppins text-[18px] font-semibold leading-none">Raghav</h3>
-            <p className="text-[#ABABAB] font-Poppins text-[14px] font-bold pt-1">Dinner?</p>
+            <div className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 cursor-pointer">
+              <div className="w-[50px] h-[50px] rounded-full">
+                <img src={friends1} alt=""/>
+              </div>
+
+              <div className="flex justify-between items-center w-[80%]">
+
+                <div>
+                  <h3 className="text-black font-Poppins text-[18px] font-semibold leading-none">
+                    {
+                      userData.uid == item.senderId ? item.receiverName : item.senderName
+                    }
+                  </h3>
+                  <p className="text-[#ABABAB] font-Poppins text-[14px] font-bold pt-1">Hi Guys, Wassap !</p>
+                </div>
+
+                <div>
+                  <button onClick={()=> handelBlock (item)} className="bg-[#5F35F5] border-0 font-Poppins font-semibold text-[14px] px-2 py-2 hover:bg-red-500 transition-all hover:text-white text-white rounded-[5px]">
+                    Block
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
+        ))
+      }
 
-          <div>
-            <p className="text-[10px] font-Poppins font-bold text-gray-400">Today, 8:56pm</p>
-          </div>
-        </div>
-      </div>
-
-      <div className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 cursor-pointer">
-        <div className="w-[50px] h-[50px] rounded-full">
-          <img src={friends2} alt=""/>
-        </div>
-        <div className="flex justify-between items-center w-[80%]">
-
-          <div>
-            <h3 className="text-black font-Poppins text-[18px] font-semibold leading-none">Swathi</h3>
-            <p className="text-[#ABABAB] font-Poppins text-[14px] font-bold pt-1" >Sure!</p>
-          </div>
-
-          <div>
-            <p className="text-[10px] font-Poppins font-bold text-gray-400">Today, 2:31pm</p>
-          </div>
-        </div>
-      </div>
-
-      <div className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 cursor-pointer">
-        <div className="w-[50px] h-[50px] rounded-full">
-          <img src={friends3} alt=""/>
-        </div>
-        <div className="flex justify-between items-center w-[80%]">
-
-          <div>
-            <h3 className="text-black font-Poppins text-[18px] font-semibold leading-none">Kiran</h3>
-            <p className="text-[#ABABAB] font-Poppins text-[14px] font-bold pt-1" >Hi.....</p>
-          </div>
-
-          <div>
-            <p className="text-[10px] font-Poppins font-bold text-gray-400">Yesterday, 6:22pm</p>
-          </div>
-        </div>
-      </div>
-
-      <div className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 cursor-pointer">
-        <div className="w-[50px] h-[50px] rounded-full">
-          <img src={friends4} alt=""/>
-        </div>
-        <div className="flex justify-between items-center w-[80%]">
-
-          <div>
-            <h3 className="text-black font-Poppins text-[18px] font-semibold leading-none">Tejeshwini C</h3>
-            <p className="text-[#ABABAB] font-Poppins text-[14px] font-bold pt-1" >I will call him today.</p>
-          </div>
-
-          <div>
-            <p className="text-[10px] font-Poppins font-bold text-gray-400">Today, 12:22pm</p>
-          </div>
-        </div>
-      </div>
       
     </div>
   );
