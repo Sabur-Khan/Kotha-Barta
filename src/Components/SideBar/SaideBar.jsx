@@ -97,12 +97,17 @@ const SaideBar = () => {
               <div>
 
                 <div className="w-[160px] cursor-pointer text-[#fff] text-[30px] h-[50px] flex justify-start items-center rounded hover:shadow-md hover:bg-white/20 transition-all gap-4">
-                  <HiHome/> 
+                  <Link to='/Home'>
+                    <HiHome/> 
+                  </Link>
                   <p className="text-lg">Home</p>
                 </div>
 
                 <div className="w-[160px] cursor-pointer mt-[20px] text-[#fff] text-[30px] h-[50px] flex justify-start items-center hover:shadow-md hover:bg-white/20 transition-all rounded gap-4">
                   <AiFillMessage/>
+                  <Link to='/Message'>
+                    <HiHome/> 
+                  </Link>
                   <p className="text-lg">Message</p>
                 </div>
 
@@ -195,10 +200,15 @@ const SaideBar = () => {
 
         <div className="flex justify-between md:w-[90%] w-[100%]">
           <div className=" cursor-pointer ">
-            <HiHome className=" text-2xl text-white"></HiHome>
+            <Link to="/Home">
+              <HiHome className=" text-2xl text-white"/>
+            </Link>
           </div>
           <div className="cursor-pointer ">
-            <AiFillMessage className=" text-2xl text-white"></AiFillMessage>
+            
+            <Link to="/Message">
+              <AiFillMessage className=" text-2xl text-white"/>
+            </Link>
           </div>
           <div className="cursor-pointer ">
             <IoMdNotifications className=" text-2xl text-white"></IoMdNotifications>
