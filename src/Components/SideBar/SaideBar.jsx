@@ -104,9 +104,8 @@ const SaideBar = () => {
                 </div>
 
                 <div className="w-[160px] cursor-pointer mt-[20px] text-[#fff] text-[30px] h-[50px] flex justify-start items-center hover:shadow-md hover:bg-white/20 transition-all rounded gap-4">
-                  <AiFillMessage/>
                   <Link to='/Message'>
-                    <HiHome/> 
+                    <AiFillMessage/>
                   </Link>
                   <p className="text-lg">Message</p>
                 </div>
