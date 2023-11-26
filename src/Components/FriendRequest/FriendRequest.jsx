@@ -49,7 +49,7 @@ function FriendRequest() {
   }
 
   return (
-    <div className="shadow-lg bg-white h-[440px] rounded-[20px] py-[19px] px-[15px]">
+    <div className="shadow-lg bg-white h-[440px] rounded-[20px] py-[19px] border px-[15px]">
       <div className="flex justify-between items-center">
         <span className=" text-xl font-Poppins font-semibold text-black">
           Friend Request
@@ -61,13 +61,13 @@ function FriendRequest() {
       <div className="mt-7">
         {
           userReqData.map((item)=>(
-            <div className="flex justify-between items-center border-b-2 last:border-b-0 py-3 cursor-pointer">
+            <div className="flex justify-between items-center border-b-2 last:border-b-0 py-3">
               <div className="w-[50px] h-[50px] rounded-full">
                 <img src={friends1} alt=""/>
               </div>
 
               <div>
-                <h3 className="text-black font-Poppins text-[18px] font-semibold leading-none">{item.senderName}</h3>
+                <h3 className="text-black font-Poppins text-[18px] font-semibold leading-none cursor-pointer">{item.senderName}</h3>
                 <p className="text-[#ABABAB] font-Poppins text-[14px] font-bold pt-1" >Good to see you.</p>
               </div>
 

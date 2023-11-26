@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import { HiDotsVertical } from 'react-icons/hi';
 import friends1 from '../../assets/friends1.png'
 import friends2 from '../../assets/friends2.png'
@@ -43,8 +43,20 @@ const BlockedUsers = () => {
     // console.log(userData);
   },[])
 
+  const handelRequest = (item) =>{
+    console.log(item,'item');
+    set(push(ref(db, 'friend/')), {
+      senderName: userData.displayName,
+      senderId: userData.uid,
+      receiverName: item.block,
+      rechiverId: item.blockId 
+    }).then(()=>{
+      remove(ref(db, 'Block/' + item.id),)
+    })
+  }
+
   return (
-    <div className="shadow-lg bg-white h-[440px] rounded-[20px] py-[19px] px-[15px]">
+    <div className="shadow-lg bg-white h-[440px] rounded-[20px] py-[19px] border px-[15px]">
       <div className="flex justify-between items-center">
         <span className=" text-xl font-Poppins font-semibold text-black">
           Blocked Users{" "}
@@ -70,7 +82,7 @@ const BlockedUsers = () => {
               <div>
                 {
                   !item.blockById &&
-                  <button className="w-[87px] h-[30px] bg-[#5F35F5] border-0 font-Poppins text-[20px] hover:bg-red-500 transition-all hover:text-white text-white rounded-[5px]">unblock</button>
+                  <button onClick={()=>handelRequest(item)} className="w-[87px] h-[30px] bg-[#5F35F5] border-0 font-Poppins text-[20px] hover:bg-red-500 transition-all hover:text-white text-white rounded-[5px]">unblock</button>
 
                 }
               </div>

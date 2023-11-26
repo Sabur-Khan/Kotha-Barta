@@ -18,6 +18,7 @@ import Login from './Pages/Login/Login.jsx';
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword.jsx';
 import Home from './Pages/Home/Home.jsx'
 import ChooseProfile from './Components/ChooseProfile/ChooseProfile.jsx'
+import Message from './Pages/Message/Message.jsx'
 
 const router = createBrowserRouter([
   {
@@ -41,8 +42,12 @@ const router = createBrowserRouter([
     element: <Registration/>,
   },
   {
-    path: "/forgotPassword",
+    path: "/ForgotPassword",
     element: <ForgotPassword/>,
+  },
+  {
+    path: "/Message",
+    element: <Message/>,
   },
 ]);
 

@@ -61,7 +61,7 @@ const Friends = () => {
   
 
   return (
-    <div className="shadow-lg bg-white h-[440px] rounded-[20px] py-[24px] px-[15px] overflow-y-auto">
+    <div className="shadow-lg bg-white h-[440px] rounded-[20px] border py-[24px] px-[15px] overflow-y-auto">
 
       <div className="flex justify-between items-center mb-[34px]">
         <span className=" text-xl font-Poppins font-semibold text-black">

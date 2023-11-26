@@ -70,7 +70,7 @@ const UserList = () => {
   },[])
 
   return (
-    <div className="shadow-lg bg-white h-[440px] rounded-[20px] py-[19px] px-[15px] overflow-y-auto">
+    <div className="shadow-lg bg-white h-[440px] rounded-[20px] py-[19px] px-[15px] overflow-y-auto border">
 
       <div className="flex justify-between items-center">
         <span className=" text-xl font-Poppins font-semibold text-black">
@@ -80,14 +80,14 @@ const UserList = () => {
       </div>
       {
         listData.map((item) =>(
-          <div className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 cursor-pointer">
+          <div className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 ">
             <div className="w-[50px] h-[50px] rounded-full">
               <img src={userData.photoURL} alt=""/>
             </div>
             <div className="flex justify-between items-center w-[80%]">
 
               <div>
-                <h3 className="text-black font-Poppins text-[18px] font-semibold leading-none">{item.username}</h3>
+                <h3 className="text-black font-Poppins text-[18px] font-semibold leading-none cursor-pointer">{item.username}</h3>
                 <p className="text-[10px] font-Poppins font-bold text-gray-400 pt-1">{item.email}</p>
               </div>
 
@@ -106,10 +106,13 @@ const UserList = () => {
                       friendRequestList.includes(userData.uid + item.userid)
 
                       ?
+
                       <button className="bg-[#5F35F5] border-0 font-Poppins font-semibold text-[14px] px-2 py-2 hover:bg-red-500 transition-all hover:text-white text-white rounded-[5px]">
                         Pending
                       </button>
+
                       :
+                      
                       <button onClick={()=> handelRequest(item)} className="w-[30px] h-[30px] flex justify-center items-center bg-[#5F35F5] border-0 font-Poppins font-semibold text-[20px] hover:bg-red-500 transition-all hover:text-white text-white rounded-[5px]">
                         <FiPlus/>
                       </button>

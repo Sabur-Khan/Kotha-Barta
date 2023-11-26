@@ -155,12 +155,16 @@ const SaideBar = () => {
         <div className="flex justify-end items-end mt-[30px]">
           <div>
 
-            <div className="relative lg:w-[160px] hover:after:absolute hover:after:content-[''] hover:after:w-3 hover:after:h-[89px] hover:after:rounded-l-lg hover:after:top-0 hover:after:right-0 hover:after:bg-[#5F35F5]  w-full hover:cursor-pointer hover:text-[#5F35F5] text-[#BAD1FF] text-5xl h-[89px] flex justify-center items-center rounded-l-3xl ease-in-out hover:after:ease-out duration-500 hover:after:duration-00 hover:bg-[#FFFFFF]">
-              <HiHome></HiHome>
+            <div className="relative lg:w-[160px] hover:after:absolute hover:after:content-[''] hover:after:w-3 hover:after:h-[89px] hover:after:rounded-l-lg hover:after:top-0 hover:after:right-0 hover:after:bg-[#5F35F5]  w-full hover:cursor-pointer hover:text-[#5F35F5] text-[#BAD1FF] text-5xl h-[89px] flex justify-center items-center rounded-l-3xl ease-in-out hover:after:ease-out duration-500 hover:after:duration-00 hover:bg-[#FFFFFF]"> 
+              <Link to='/Home'>
+                <HiHome/> 
+              </Link>
             </div>
 
             <div className="relative w-[160px] hover:after:absolute hover:after:content-[''] hover:after:w-3 hover:after:h-[89px] hover:after:rounded-l-lg hover:after:top-0 hover:after:right-0 hover:after:bg-[#5F35F5] hover:cursor-pointer mt-[57px] hover:text-[#5F35F5] text-[#BAD1FF] text-5xl h-[89px] flex justify-center items-center rounded-l-3xl ease-in-out duration-500 hover:bg-[#FFFFFF]">
-              <AiFillMessage></AiFillMessage>
+              <Link to="/Message">
+                <AiFillMessage/>
+              </Link>
             </div>
 
             <div className="relative w-[160px] hover:after:absolute hover:after:content-[''] hover:after:w-3 hover:after:h-[89px] hover:after:rounded-l-lg hover:after:top-0 hover:after:right-0 hover:after:bg-[#5F35F5] hover:cursor-pointer mt-[57px] hover:text-[#5F35F5] text-[#BAD1FF] text-5xl h-[89px] flex justify-center items-center rounded-l-3xl ease-in-out duration-500 hover:bg-[#FFFFFF]">
