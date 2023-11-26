@@ -12,16 +12,24 @@ const Message = () => {
             <SaideBar/>
             </div>
         
-            <div className='w-full grid lg:grid-rows-2 lg:grid-flow-col md:grid-rows-2 md:lg:grid-flow-col grid-rows-2 lg:gap-5 md:gap-2 gap-2'>
+            <div className='w-full flex justify-between gap-4'>
+                <div className=" w-1/2">
 
-                <div>
-                    <MyGroups/>
+                    <div>
+                        <MyGroups/>
+                    </div>
+                    <div className="mt-5">
+                        <Friends/>
+                    </div>
                 </div>
-                <div>
-                    <Friends/>
-                </div>
+
 
             
+                <div className="w-1/2">
+                    <div className="w-full h-[900px] shadow-lg bg-white rounded-[20px] border py-[24px] px-[15px] overflow-y-auto">
+                        
+                    </div>
+                </div>
             </div>
 
         </div>
