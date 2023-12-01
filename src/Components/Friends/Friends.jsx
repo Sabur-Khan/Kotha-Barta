@@ -6,13 +6,15 @@ import friends3 from '../../assets/friends3.png'
 import friends4 from '../../assets/friends4.png'
 
 import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { activeChat } from "../../userSlice/activeChatSlice";
 
 const Friends = () => {
 
   const userData = useSelector((state)=> state.user.userInfo);
   const db = getDatabase();
   const database = getDatabase();
+  const dispatch = useDispatch()
   const [friedsList, setFriedsList] = useState([])
 
   
@@ -23,6 +25,7 @@ const Friends = () => {
       snapshot.forEach((item)=>{
 
         // console.log(item.val(),"friendS");
+        
 
         if(userData.uid == item.val().rechiverId || userData.uid == item.val().senderId){
           arrays.push({...item.val(), key: item.key})
@@ -59,6 +62,14 @@ const Friends = () => {
     }
   }
   
+  const handelActive = (item) =>{
+    console.log(item);
+    if(item.rechiverId == userData.uid){
+      dispatch(activeChat({status:'singel', id: item.senderId, name: item.senderName}))
+    }else{
+      dispatch(activeChat({status:'singel', id: item.rechiverId, name: item.receiverName}))
+    }
+  }
 
   return (
     <div className="shadow-lg bg-white h-[440px] rounded-[20px] border py-[24px] px-[15px] overflow-y-auto">
@@ -73,7 +84,7 @@ const Friends = () => {
       {
         friedsList.map((item)=> (
           <div>
-            <div className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 cursor-pointer">
+            <div onClick={()=>handelActive(item)} className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 cursor-pointer">
               <div className="w-[50px] h-[50px] rounded-full">
                 <img src={friends1} alt=""/>
               </div>
