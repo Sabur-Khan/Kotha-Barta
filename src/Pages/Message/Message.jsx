@@ -10,28 +10,47 @@ import { BsFillSendFill } from "react-icons/bs";
 import loginImage from "../../assets/loginImage.jpg";
 import ModalImage from "react-modal-image";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { getDatabase, push, ref, set } from "firebase/database";
+import { useEffect, useState } from "react";
+import { getDatabase, onValue, push, ref, set } from "firebase/database";
 
 
 
 const Message = () => {
     const dispatch = useDispatch();
     const db = getDatabase();
-    const [message, setMessage] = useState('')
     const userData = useSelector((state)=> state.user.userInfo);
     const activeChat = useSelector(state => state.activeChatSlice.active);
+    const [message, setMessage] = useState('')
+    const [singelMessage, setSingelMessage] = useState([])
 
 
     const handelSendMsg = () =>{
         if(activeChat.status == 'singel'){
             set(push(ref(db, "singelMsg/")), {
                 msg: message,
+                whosendID: userData.uid,
+                whosendName: userData.displayName,
+                whorechivedID: activeChat.id,
+                whorechivedName: activeChat.name,
             });
         }else{
             console.log("ami group");
         }
     }
+
+    useEffect(()=>{
+        const singelMsgRef = ref(db, "singelMsg/");
+        onValue(singelMsgRef, (snapshot) => {
+            let arrays = []
+            snapshot.forEach((item)=>{
+                // if(item.val().whosendID == userData.uid || item.val().whorechivedID == activeChat.id  && item.val().whorechivedID == userData.uid || item.val().whosendID == activeChat.id ){
+                // }
+                arrays.push(item.val());
+            })
+            setSingelMessage(arrays)
+        });
+    },[])
+    console.log(singelMessage );
 
   return (
     <div>
@@ -41,8 +60,8 @@ const Message = () => {
             <SaideBar/>
             </div>
         
-            <div className='w-full flex justify-between gap-4'>
-                <div className=" w-1/2 h-fit">
+            <div className='w-full lg:flex justify-between gap-4'>
+                <div className=" lg:w-1/2 h-fit">
                     <div className="mt-5">
                         <Friends/>
                     </div>
@@ -50,12 +69,12 @@ const Message = () => {
 
 
             
-                <div className="w-1/2">
+                <div className="lg:w-1/2 lg:mt-0 mt-5">
 
                     <div>
 
                         <div className=" relative w-full h-[900px] shadow-lg bg-white rounded-[20px] border py-[24px] px-[15px] overflow-y-scroll">
-                            <div className=" sticky md:top-[-25px] lg:top-[-25px] mb-[50px] rounded lg:w-[538px] md:w-[417px] py-2 z-50 px-2 border-b bg-white">
+                            <div className=" sticky md:top-[-25px] lg:top-[-25px] mb-[50px] lg:z-50 rounded lg:w-[538px] md:w-[417px] py-2  px-2 border-b bg-white">
                                 <div className=" flex justify-between items-center">
                                     <div className="flex cursor-pointer">
 
@@ -77,106 +96,31 @@ const Message = () => {
 
 
                             <div>
-
-                                {/*======= rechiver section =========*/}
-                                <div>
-                                    <div className=" relative">
-                                        <p className="text-[16px] text-left font-samibold bg-[#F1F1F1] inline-block py-[20px] px-[50px] text-black font-Poppins rounded-lg">
-                                            Hey There !
-                                        </p>
-                                        <BsFillTriangleFill className=" absolute bottom-[-1px] text-[#F1F1F1] left-[-7px]"/>
-                                    </div>
-                                    <p className="mt-2 mb-8 text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
-                                </div>
-                                
-                                <div>
-                                    <div className=" relative">
-                                        <p className="text-[16px] text-left font-samibold bg-[#F1F1F1] inline-block py-[20px] px-[50px] text-black font-Poppins rounded-lg">
-                                            How are you doing?
-                                        </p>
-                                        <BsFillTriangleFill className=" absolute bottom-[-1px] text-[#F1F1F1] left-[-7px]"/>
-                                    </div>
-                                    <p className="mt-2 mb-8 text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
-                                </div>
-
-                                {/*======= sender section =========*/}
-                                <div>
-                                    <div className=" relative text-right">
-                                        <p className="text-[16px] text-right font-samibold bg-purple-600 inline-block py-[20px] px-[50px] text-white font-Poppins rounded-lg">
-                                        Hello...
-                                        </p>
-                                        <BsFillTriangleFill className=" absolute bottom-[-1px] text-purple-600 right-[-7px]"/>
-                                    </div>
-                                    <p className="mt-2 mb-8 text-right text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
-                                </div>
-
-                                <div>
-                                    <div className=" relative text-right">
-                                        <p className="text-[16px] text-right font-samibold bg-purple-600 inline-block py-[20px] px-[50px] text-white font-Poppins rounded-lg">
-                                            I am good  and hoew about you?
-                                        </p>
-                                        <BsFillTriangleFill className=" absolute bottom-[-1px] text-purple-600 right-[-7px]"/>
-                                    </div>
-                                    <p className="mt-2 mb-8 text-right text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
-                                </div>
-
-                                {/*======= rechiver section =========*/}
-
-                                <div>
-                                    <div className=" relative">
-                                        <p className="text-[16px] text-left font-samibold bg-[#F1F1F1] inline-block py-[20px] px-[50px] text-black font-Poppins rounded-lg">
-                                            I am doing well. Can we meet up tomorrow?
-                                        </p>
-                                        <BsFillTriangleFill className=" absolute bottom-[-1px] text-[#F1F1F1] left-[-7px]"/>
-                                    </div>
-                                    <p className="mt-2 mb-8 text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
-                                </div>
-
-                                {/*======= sender section =========*/}
-
-                                <div className="mb-[110px]">
-
-                                    <div className=" relative text-right">
-                                        <p className="text-[16px] text-right font-samibold bg-purple-600 inline-block py-[20px] px-[50px] text-white font-Poppins rounded-lg">
-                                            Sure!
-                                        </p>
-                                        <BsFillTriangleFill className=" absolute bottom-[-1px] text-purple-600 right-[-7px]"/>
-                                    </div>
-                                    <p className="mt-2 mb-8 text-right text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p> 
-                                </div>
-
-                                
-                                {/*======= rechiver section =========*/}
-
-                                <div className="">
-                                    <div className=" relative">
-                                        <ModalImage className="w-[200px] rounded border-8 border-slate-300" small={loginImage} large={loginImage} />
-
-                                        <BsFillTriangleFill className=" absolute bottom-[-1px] text-slate-300 left-[-7px]"/>
-                                    </div>
-                                    <p className="mt-2 mb-8 text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
-                                </div>
-
-                                {/*======= sender section =========*/}
-
-                                <div className="mb-[450px]">
-
-                                    <div className=" relative text-right">
-                                        <ModalImage className="w-[200px] rounded float-right border-8 border-purple-600" small={loginImage} large={loginImage} />
-                                        <BsFillTriangleFill className=" absolute bottom-[-298px] text-purple-600 right-[-7px]"/>
-                                    </div>
-                                </div>
-
-                                {/*======= rechiver section =========*/}
-
-                                {/* <div className="mb-[120px]">
-                                    <div className=" relative">
-                                        <ModalImage className="w-[200px] rounded border-8 border-slate-300" small={loginImage} large={loginImage} />
-
-                                        <BsFillTriangleFill className=" absolute bottom-[-1px] text-slate-300 left-[-7px]"/>
-                                    </div>
-                                    <p className="mt-2 mb-8 text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
-                                </div> */}
+                                {
+                                    singelMessage.map((item)=>(
+                                        item.whosendID == userData.uid ?
+                                        <div>
+                                            <div className=" relative text-right">
+                                                <p className="text-[16px] text-right font-samibold bg-purple-600 inline-block py-[20px] px-[50px] text-white font-Poppins rounded-lg">
+                                                    {item.msg}
+                                                </p>
+                                                <BsFillTriangleFill className=" absolute bottom-[-1px] text-purple-600 right-[-7px]"/>
+                                            </div>
+                                            <p className="mt-2 mb-8 text-right text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
+                                        </div>
+                                        :
+                                        <div>
+                                            <div className=" relative">
+                                                <p className="text-[16px] text-left font-samibold bg-[#F1F1F1] inline-block py-[20px] px-[50px] text-black font-Poppins rounded-lg">
+                                                    {item.msg}
+                                                </p>
+                                                <BsFillTriangleFill className=" absolute bottom-[-1px] text-[#F1F1F1] left-[-7px]"/>
+                                            </div>
+                                            <p className="mt-2 mb-8 text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
+                                        
+                                        </div>
+                                    ))
+                                }
                                 
                             </div>
 
