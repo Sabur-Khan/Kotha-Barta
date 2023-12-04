@@ -96,7 +96,7 @@ const Message = () => {
                             </div>
 
 
-                            <div className="h-[600px] overflow-y-scroll">
+                            <div className="h-[620px] overflow-y-scroll">
                                 {
                                     singelMessage.map((item)=>(
                                         item.whosendID == userData.uid ?
