@@ -62,7 +62,7 @@ const Message = () => {
             </div>
         
             <div className='w-full lg:flex justify-between gap-4'>
-                <div className=" lg:w-1/2 h-fit">
+                <div className="w-full">
                     <div className="mt-5">
                         <Friends/>
                     </div>
@@ -74,7 +74,7 @@ const Message = () => {
 
                     <div>
 
-                        <div className=" relative w-full h-[900px] shadow-lg bg-white rounded-[20px] border py-[24px] px-[15px] overflow-y-scroll">
+                        <div className=" relative w-full h-[900px] shadow-lg bg-white rounded-[20px] border py-[24px] px-[15px] ">
                             <div className=" sticky md:top-[-25px] lg:top-[-25px] mb-[50px] lg:z-50 rounded lg:w-[538px] md:w-[417px] py-2  px-2 border-b bg-white">
                                 <div className=" flex justify-between items-center">
                                     <div className="flex cursor-pointer">
@@ -96,21 +96,21 @@ const Message = () => {
                             </div>
 
 
-                            <div className="h-[500px]">
+                            <div className="h-[600px] overflow-y-scroll">
                                 {
                                     singelMessage.map((item)=>(
                                         item.whosendID == userData.uid ?
-                                        <div>
+                                        <div className="p-5">
                                             <div className=" relative text-right">
                                                 <p className="text-[16px] text-right font-samibold bg-purple-600 inline-block py-[20px] px-[50px] text-white font-Poppins rounded-lg">
                                                     {item.msg}
                                                 </p>
-                                                <BsFillTriangleFill className=" absolute bottom-[-1px] text-purple-600 right-[-7px]"/>
+                                                <BsFillTriangleFill className=" absolute bottom-[-1px] text-purple-600 right-[-8px]"/>
                                             </div>
                                             <p className="mt-2 mb-10 text-right text-black/25 font-Poppins text-xs font-medium">{moment(item.date, "YYYYMMDD hh:mm").fromNow()}</p>
                                         </div>
                                         :
-                                        <div >
+                                        <div className="p-5">
                                             <div className=" relative">
                                                 <p className="text-[16px] text-left font-samibold bg-[#F1F1F1] inline-block py-[20px] px-[50px] text-black font-Poppins rounded-lg">
                                                     {item.msg}
