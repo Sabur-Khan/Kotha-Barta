@@ -63,7 +63,7 @@ const Friends = () => {
   }
   
   const handelActive = (item) =>{
-    console.log(item);
+    
     if(item.rechiverId == userData.uid){
       dispatch(activeChat({status:'singel', id: item.senderId, name: item.senderName}))
     }else{

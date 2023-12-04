@@ -12,7 +12,7 @@ import ModalImage from "react-modal-image";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getDatabase, onValue, push, ref, set } from "firebase/database";
-
+import moment from 'moment';
 
 
 const Message = () => {
@@ -32,6 +32,7 @@ const Message = () => {
                 whosendName: userData.displayName,
                 whorechivedID: activeChat.id,
                 whorechivedName: activeChat.name,
+                date: `${new Date().getFullYear()} - ${new Date().getMonth() + 1} - ${new Date().getDate()}, ${new Date().getHours()}: ${new Date().getMinutes()}`
             });
         }else{
             console.log("ami group");
@@ -45,7 +46,7 @@ const Message = () => {
             snapshot.forEach((item)=>{
                 // if(item.val().whosendID == userData.uid || item.val().whorechivedID == activeChat.id  && item.val().whorechivedID == userData.uid || item.val().whosendID == activeChat.id ){
                 // }
-                arrays.push(item.val());
+                arrays.push(item.val())
             })
             setSingelMessage(arrays)
         });
@@ -95,7 +96,7 @@ const Message = () => {
                             </div>
 
 
-                            <div>
+                            <div className="h-[500px]">
                                 {
                                     singelMessage.map((item)=>(
                                         item.whosendID == userData.uid ?
@@ -106,17 +107,17 @@ const Message = () => {
                                                 </p>
                                                 <BsFillTriangleFill className=" absolute bottom-[-1px] text-purple-600 right-[-7px]"/>
                                             </div>
-                                            <p className="mt-2 mb-8 text-right text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
+                                            <p className="mt-2 mb-10 text-right text-black/25 font-Poppins text-xs font-medium">{moment(item.date, "YYYYMMDD hh:mm").fromNow()}</p>
                                         </div>
                                         :
-                                        <div>
+                                        <div >
                                             <div className=" relative">
                                                 <p className="text-[16px] text-left font-samibold bg-[#F1F1F1] inline-block py-[20px] px-[50px] text-black font-Poppins rounded-lg">
                                                     {item.msg}
                                                 </p>
                                                 <BsFillTriangleFill className=" absolute bottom-[-1px] text-[#F1F1F1] left-[-7px]"/>
                                             </div>
-                                            <p className="mt-2 mb-8 text-black/25 font-Poppins text-xs font-medium">Today, 2:01pm</p>
+                                            <p className="mt-2 mb-8 text-black/25 font-Poppins text-xs font-medium">{moment(item.date, "YYYYMMDD hh:mm").fromNow()}</p>
                                         
                                         </div>
                                     ))
