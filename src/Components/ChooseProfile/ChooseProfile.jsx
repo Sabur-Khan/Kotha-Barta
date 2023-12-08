@@ -7,6 +7,7 @@ import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage"
 import { getAuth, updateProfile } from "firebase/auth";
 import { useDispatch, useSelector } from 'react-redux';
 import { userLoginInfo } from '../../userSlice/userSlice';
+import { update, ref as dref, getDatabase } from 'firebase/database';
 
 const ChooseProfile = () => {
 
@@ -16,6 +17,7 @@ const ChooseProfile = () => {
     const [image, setImage] = useState();
     const [cropData, setCropData] = useState("");
     const cropperRef = createRef();
+    const db = getDatabase();
     const navigate = useNavigate();
 
     const onPhotoChange = (e) => {
@@ -49,12 +51,16 @@ const ChooseProfile = () => {
             uploadString(storageRef, message4, 'data_url').then((snapshot) => {
                 getDownloadURL(storageRef).then((downloadURL) => {
                     updateProfile(auth.currentUser, {
-                      photoURL: downloadURL
+                        photoURL: downloadURL
                       }).then(()=>{
-                        dispatch(userLoginInfo({...userData,photoURL:downloadURL}))
-                        localStorage.setItem("userInfo",JSON.stringify({...userData,photoURL:downloadURL}) )
-                        navigate("/Home")
-                      })
+                            update(dref(db, "users/" + userData.uid),{
+                                img: downloadURL
+                            });
+                          
+                            dispatch(userLoginInfo({...userData,photoURL:downloadURL}))
+                            localStorage.setItem("userInfo",JSON.stringify({...userData,photoURL:downloadURL}) )
+                            navigate("/Home")
+                        })
                 });
             });
         }

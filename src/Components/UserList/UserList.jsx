@@ -68,7 +68,7 @@ const UserList = () => {
       setFriendtList(arrays)
     });
   },[])
-
+  
   return (
     <div className="shadow-lg bg-white h-[440px] rounded-[20px] py-[19px] px-[15px] overflow-y-auto border">
 
@@ -82,7 +82,7 @@ const UserList = () => {
         listData.map((item) =>(
           <div className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 ">
             <div className="w-[50px] h-[50px] rounded-full">
-              <img src={userData.photoURL} alt=""/>
+              <img src={item.img} alt=""/>
             </div>
             <div className="flex justify-between items-center w-[80%]">
 

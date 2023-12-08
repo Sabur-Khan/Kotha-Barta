@@ -16,7 +16,7 @@ const Friends = () => {
   const database = getDatabase();
   const dispatch = useDispatch()
   const [friedsList, setFriedsList] = useState([])
-
+  // const [listData, setListData] = useState([]);
   
   useEffect(()=>{
     const friendRef = ref(db, 'friend/');
@@ -39,6 +39,7 @@ const Friends = () => {
     // console.log(userData);
   },[])
 
+
   const handelBlock = (item) =>{
     console.log(item,"Block");
     if(userData.uid == item.senderId){
@@ -46,7 +47,8 @@ const Friends = () => {
         block: item.receiverName,
         blockId: item.rechiverId,
         blockBy: item.senderName,
-        blockById: item.senderId
+        blockById: item.senderId,
+        img: item.img
       }).then(()=>{
         remove(ref(db, 'friend/' + item.key))
       })
@@ -55,7 +57,8 @@ const Friends = () => {
         block: item.senderName,
         blockId: item.senderId,
         blockBy: item.receiverName,
-        blockById: item.rechiverId
+        blockById: item.rechiverId,
+        img: item.img
       }).then(()=>{
         remove(ref(db, 'friend/' + item.key))
       })
@@ -70,6 +73,20 @@ const Friends = () => {
       dispatch(activeChat({status:'singel', id: item.rechiverId, name: item.receiverName}))
     }
   }
+
+  // useEffect(()=>{
+  //   const userRef = ref(db, 'users/');
+  //   onValue(userRef, (snapshot) => {
+  //     let arrays =[]
+  //     snapshot.forEach((item)=>{
+  //       if(userData.uid !== item.key){
+  //         arrays.push({...item.val(), userid: item.key})
+  //       }
+  //     })
+  //    setListData(arrays)
+  //   });
+  //   console.log(userData);
+  // },[])
 
   return (
     <div className="shadow-lg bg-white h-[440px] rounded-[20px] border py-[24px] px-[15px] overflow-y-auto">
@@ -86,7 +103,7 @@ const Friends = () => {
           <div>
             <div onClick={()=>handelActive(item)} className=" flex gap-5 w-full border-b-2 last:border-b-0 py-3 cursor-pointer">
               <div className="w-[50px] h-[50px] rounded-full">
-                <img src={friends1} alt=""/>
+                <img src={item.img} alt=""/>
               </div>
 
               <div className="flex justify-between items-center w-[80%]">
