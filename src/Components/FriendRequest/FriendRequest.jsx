@@ -63,7 +63,7 @@ function FriendRequest() {
           userReqData.map((item)=>(
             <div className="flex justify-between items-center border-b-2 last:border-b-0 py-3">
               <div className="w-[50px] h-[50px] rounded-full">
-                <img src={friends1} alt=""/>
+                <img src={item.img} alt=""/>
               </div>
 
               <div>
